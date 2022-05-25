@@ -74,7 +74,6 @@ async function run() {
      // get tool details api
      app.get('/tools/:id',  async(req, res) =>{
        const id = req.params.id;
-       console.log(id);
        const query = {_id: ObjectId(id)};
        const tool = await toolsCollection.findOne(query);
        res.send(tool);
@@ -85,6 +84,26 @@ async function run() {
       const users = await userCollection.find().toArray();
       res.send(users);
     });
+
+    // update user
+    app.put('/user/:id', async(req, res) =>{
+      const id = req.params.id;
+      const updatedUser = req.body;
+      const filter = {_id: ObjectId(id)};
+      const options = { upsert: true };
+      const updatedDoc = {
+          $set: {
+              name: updatedUser.name,
+              email: updatedUser.email,
+              phone: updatedUser.phone,
+              address: updatedUser.address,
+              linkedin: updatedUser.linkedin
+          }
+      };
+      const result = await userCollection.updateOne(filter, updatedDoc, options);
+      res.send(result);
+
+  })
 
 
        // make an admin api
