@@ -35,6 +35,18 @@ async function run() {
   try {
     await client.connect();
     const userCollection = client.db('motor-parts').collection('users');
+    const toolsCollection = client.db('motor-parts').collection('tools');
+
+    const verifyAdmin = async (req, res, next) => {
+      const requester = req.decoded.email;
+      const requesterAccount = await userCollection.findOne({ email: requester });
+      if (requesterAccount.role === 'admin') {
+        next();
+      }
+      else {
+        res.status(403).send({ message: 'forbidden' });
+      }
+    }
 
 
       // give an access token after login 
@@ -51,8 +63,44 @@ async function run() {
         res.send({result, token})
       })
    
+      // get all tools api
+      app.get('/tools', async (req, res) => {
+        const query = {};
+        const cursor = toolsCollection.find(query);
+        const tools = await cursor.toArray();
+        res.send(tools);
+    });
 
-      
+     // get tool details api
+     app.get('/tools/:id',  async(req, res) =>{
+       const id = req.params.id;
+       console.log(id);
+       const query = {_id: ObjectId(id)};
+       const tool = await toolsCollection.findOne(query);
+       res.send(tool);
+     })
+     
+      // get all user api
+    app.get('/user',  async (req, res) => {
+      const users = await userCollection.find().toArray();
+      res.send(users);
+    });
+
+
+       // make an admin api
+    app.put('/user/admin/:email', verifyJWT, verifyAdmin, async (req, res) => {
+      const email = req.params.email;
+      const filter = { email: email };
+      const updateDoc = {
+        $set: { role: 'admin' },
+      };
+      const result = await userCollection.updateOne(filter, updateDoc);
+      res.send(result);
+    })
+
+
+
+
     }
     finally{
 
