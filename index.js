@@ -35,7 +35,9 @@ async function run() {
   try {
     await client.connect();
     const userCollection = client.db('motor-parts').collection('users');
-    const toolsCollection = client.db('motor-parts').collection('tools');
+    const toolCollection = client.db('motor-parts').collection('tools');
+    const reviewCollection = client.db('motor-parts').collection('reviews');
+    const orderCollection = client.db('motor-parts').collection('orders');
 
     const verifyAdmin = async (req, res, next) => {
       const requester = req.decoded.email;
@@ -64,29 +66,46 @@ async function run() {
       })
    
       // get all tools api
-      app.get('/tools', async (req, res) => {
+      app.get('/tool', async (req, res) => {
         const query = {};
-        const cursor = toolsCollection.find(query);
+        const cursor = toolCollection.find(query);
         const tools = await cursor.toArray();
         res.send(tools);
     });
 
      // get tool details api
-     app.get('/tools/:id',  async(req, res) =>{
+     app.get('/tool/:id', verifyJWT, async(req, res) =>{
        const id = req.params.id;
-       const query = {_id: ObjectId(id)};
-       const tool = await toolsCollection.findOne(query);
+       const query = {_id: ObjectId(id)}; 
+       const tool = await toolCollection.findOne(query);
        res.send(tool);
      })
+
+     // post tool api
+     app.post('/tool',verifyJWT, verifyAdmin, async (req, res) => {
+      const newTool = req.body;
+      const result = await toolCollection.insertOne(newTool);
+      res.send(result);
+  });
+
+      // DELETE tool api
+      app.delete('/tool/:id', verifyJWT, verifyAdmin, async (req, res) => {
+        const id = req.params.id;
+        const query = { _id: ObjectId(id) };
+        const result = await toolCollection.deleteOne(query);
+        res.send(result);
+    });
+
+
      
       // get all user api
-    app.get('/user',  async (req, res) => {
+    app.get('/user', verifyJWT, async (req, res) => {
       const users = await userCollection.find().toArray();
       res.send(users);
     });
 
     // update user
-    app.put('/user/:id', async(req, res) =>{
+    app.put('/user/:id',verifyJWT, async(req, res) =>{
       const id = req.params.id;
       const updatedUser = req.body;
       const filter = {_id: ObjectId(id)};
@@ -107,8 +126,9 @@ async function run() {
 
 
        // make an admin api
-    app.put('/user/admin/:email', verifyJWT, verifyAdmin, async (req, res) => {
+    app.put('/user/admin/:email', verifyJWT ,  async (req, res) => {
       const email = req.params.email;
+      console.log(email)
       const filter = { email: email };
       const updateDoc = {
         $set: { role: 'admin' },
@@ -118,7 +138,28 @@ async function run() {
     })
 
 
+    // get all reviews api
+    app.get('/review', async (req, res) => {
+      const query = {};
+      const cursor = reviewCollection.find(query);
+      const reviews = await cursor.toArray();
+      res.send(reviews);
+    });
 
+     // post review api
+     app.post('/review',verifyJWT, verifyAdmin, async (req, res) => {
+      const newReview = req.body;
+      const result = await reviewCollection.insertOne(newReview);
+      res.send(result);
+     });
+
+
+     // post order api
+     app.post('/order',verifyJWT, async (req, res) => {
+      const newOrder = req.body;
+      const result = await orderCollection.insertOne(newOrder);
+      res.send(result);
+     });
 
     }
     finally{
