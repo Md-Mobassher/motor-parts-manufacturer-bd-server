@@ -147,12 +147,21 @@ async function run() {
     });
 
      // post review api
-     app.post('/review',verifyJWT, verifyAdmin, async (req, res) => {
+     app.post('/review',verifyJWT, async (req, res) => {
       const newReview = req.body;
       const result = await reviewCollection.insertOne(newReview);
       res.send(result);
      });
 
+
+
+
+
+     // get all order
+    app.get('/order', verifyJWT, async (req, res) => {
+      const orders = await orderCollection.find().toArray();
+      res.send(orders);
+    })
 
      // post order api
      app.post('/order',verifyJWT, async (req, res) => {
@@ -160,6 +169,15 @@ async function run() {
       const result = await orderCollection.insertOne(newOrder);
       res.send(result);
      });
+
+     // DELETE tool api
+     app.delete('/order/:id', verifyJWT, async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await orderCollection.deleteOne(query);
+      res.send(result);
+  });
+
 
     }
     finally{
