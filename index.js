@@ -137,6 +137,15 @@ async function run() {
       res.send(result);
     })
 
+     
+    // get all admin api
+    app.get('/admin/:email', async (req, res) => {
+      const email = req.params.email;
+      const user = await userCollection.findOne({ email: email });
+      const isAdmin = user.role === 'admin';
+      res.send({ admin: isAdmin })
+    })
+
 
     // get all reviews api
     app.get('/review', async (req, res) => {
