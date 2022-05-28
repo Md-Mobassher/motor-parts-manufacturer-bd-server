@@ -128,7 +128,6 @@ async function run() {
        // make an admin api
     app.put('/user/admin/:email', verifyJWT ,verifyAdmin,  async (req, res) => {
       const email = req.params.email;
-      console.log(email)
       const filter = { email: email };
       const updateDoc = {
         $set: { role: 'admin' },
