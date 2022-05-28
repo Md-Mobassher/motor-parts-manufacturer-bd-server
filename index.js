@@ -103,6 +103,21 @@ async function run() {
       const users = await userCollection.find().toArray();
       res.send(users);
     });
+     
+     // DELETE user api
+     app.delete('/user/:email', verifyJWT, verifyAdmin, async (req, res) => {
+      const email = req.params.email;
+      const query = { email: email };
+      const result = await userCollection.deleteOne(query);
+      res.send(result);
+  });
+
+
+      // get all order api
+    app.get('/order', verifyJWT, verifyAdmin, async (req, res) => {
+      const orders = await orderCollection.find().toArray();
+      res.send(orders);
+    });
 
     // update user
     app.put('/user/email',verifyJWT, async(req, res) =>{
@@ -165,10 +180,12 @@ async function run() {
 
 
 
-     // get all order
-    app.get('/order', verifyJWT, async (req, res) => {
-      const orders = await orderCollection.find().toArray();
-      res.send(orders);
+     // get specific order
+    app.get('/order/:email', verifyJWT, async (req, res) => {
+        const email = req.params.email;
+        const query = { email: email };
+        const orders = await orderCollection.find(query);
+        res.send(orders)
     })
 
      // post order api
@@ -178,7 +195,7 @@ async function run() {
       res.send(result);
      });
 
-     // DELETE tool api
+     // DELETE order api
      app.delete('/order/:id', verifyJWT, async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
