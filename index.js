@@ -99,16 +99,16 @@ async function run() {
 
      
       // get all user api
-    app.get('/user', verifyJWT, async (req, res) => {
+    app.get('/user', verifyJWT, verifyAdmin, async (req, res) => {
       const users = await userCollection.find().toArray();
       res.send(users);
     });
 
     // update user
-    app.put('/user/:id',verifyJWT, async(req, res) =>{
-      const id = req.params.id;
+    app.put('/user/email',verifyJWT, async(req, res) =>{
+      const email = req.params.email;
       const updatedUser = req.body;
-      const filter = {_id: ObjectId(id)};
+      const filter = {email: email};
       const options = { upsert: true };
       const updatedDoc = {
           $set: {
@@ -126,7 +126,7 @@ async function run() {
 
 
        // make an admin api
-    app.put('/user/admin/:email', verifyJWT ,  async (req, res) => {
+    app.put('/user/admin/:email', verifyJWT ,verifyAdmin,  async (req, res) => {
       const email = req.params.email;
       console.log(email)
       const filter = { email: email };
@@ -139,7 +139,7 @@ async function run() {
 
      
     // get all admin api
-    app.get('/admin/:email', async (req, res) => {
+    app.get('/admin/:email', verifyJWT, async (req, res) => {
       const email = req.params.email;
       const user = await userCollection.findOne({ email: email });
       const isAdmin = user.role === 'admin';
