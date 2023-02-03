@@ -10,9 +10,10 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.pu5qw.mongodb.net/?retryWrites=true&w=majority`;
 
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.pu5qw.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+
 
   // verify jwt
 function verifyJWT(req, res, next) {
@@ -181,10 +182,11 @@ async function run() {
 
 
      // get specific order
-    app.get('/order/:email', verifyJWT, async (req, res) => {
+    app.get('/order/:email', async (req, res) => {
         const email = req.params.email;
         const query = { email: email };
-        const orders = await orderCollection.find(query);
+        const cursor = orderCollection.find(query);
+        const orders = await cursor.toArray()
         res.send(orders)
     })
 
