@@ -7,6 +7,9 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 const toolsRoutes = require("./routes/v1/tools.route.js")
+const usersRoutes = require("./routes/v1/users.router")
+// const reviewsRoutes = require("./routes/v1/reviews.router")
+// const ordersRoutes = require("./routes/v1/orders.router")
 const errorHandler = require("./middleware/errorHandler")
 
 app.use(cors());
@@ -23,7 +26,11 @@ connectToServer((err) => {
   }
 });
 
+
 app.use("/api/v1/tools" , toolsRoutes)
+// app.use("/api/v1/orders" , ordersRoutes)
+app.use("/api/v1/users" , usersRoutes)
+// app.use("/api/v1/reviews" , reviewsRoutes)
 
 
 
