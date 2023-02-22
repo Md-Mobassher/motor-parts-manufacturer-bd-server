@@ -22,12 +22,12 @@
     "method": "GET",
     "sortNum": 0,
     "created": "2023-02-22T02:16:01.133Z",
-    "modified": "2023-02-22T02:29:18.912Z",
+    "modified": "2023-02-22T02:33:24.440Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n   \"email\": \"mobasshser123@gmail.com\",\n   \"role\": \"admin\"\n}",
+      "raw": "{\n  \n   \"email\": \"mobasshser123@gmail.com\",\n   \"role\": \"admin\"\n}",
       "form": []
     },
     "tests": []
@@ -137,6 +137,101 @@
     "body": {
       "type": "json",
       "raw": "{\n  \n   \"email\": \"mobasshser123@gmail.com\",\n   \"role\": \"admin\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "a7c9e67c-8fdb-4345-a8c9-8717d5702a4e",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:5000/api/v1/reviews",
+    "url": "http://localhost:5000/api/v1/reviews",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2023-02-22T03:20:04.132Z",
+    "modified": "2023-02-22T04:57:00.148Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"rating\": \"10\",\n  \"review\": \"They are very helpful with their customer.\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "641c59fe-c1d3-40cf-a75a-2a098221e589",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:5000/api/v1/reviews/62922a6a21e8375b11620232",
+    "url": "http://localhost:5000/api/v1/reviews/62922a6a21e8375b11620232",
+    "method": "PATCH",
+    "sortNum": 0,
+    "created": "2023-02-22T04:56:39.122Z",
+    "modified": "2023-02-22T05:21:14.207Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"rating\": \"4\",\n  \"review\": \"They are very helpful with their customer.\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "a4ffd528-ea06-4afb-9304-65c7ab870473",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:5000/api/v1/reviews",
+    "url": "http://localhost:5000/api/v1/reviews",
+    "method": "PATCH",
+    "sortNum": 0,
+    "created": "2023-02-22T04:56:53.126Z",
+    "modified": "2023-02-22T04:56:53.126Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"rating\": \"10\",\n  \"review\": \"They are very helpful with their customer.\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "3d0101ee-dbc5-40d1-9bb0-570d4715b43b",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:5000/api/v1/reviews/62922a6a21e8375b11620232",
+    "url": "http://localhost:5000/api/v1/reviews",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2023-02-22T05:18:38.662Z",
+    "modified": "2023-02-22T05:20:11.741Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"rating\": \"9\",\n  \"review\": \"They are very helpful with their customer.\"\n}",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "3fb62709-c2b6-4a3a-b061-6da59993225c",
+    "colId": "history",
+    "containerId": "",
+    "name": "http://localhost:5000/api/v1/reviews/62922cbb21e8375b11620233",
+    "url": "http://localhost:5000/api/v1/reviews/62922cbb21e8375b11620233",
+    "method": "PATCH",
+    "sortNum": 0,
+    "created": "2023-02-22T05:21:44.174Z",
+    "modified": "2023-02-22T05:21:44.174Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"rating\": \"5\",\n  \"review\": \"They are very helpful with their customer.\"\n}",
       "form": []
     },
     "tests": []
